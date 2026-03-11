@@ -1,4 +1,4 @@
-# Brand List Automator
+# Jobhandy
 
 Chrome extension for a repetitive internal-tool workflow:
 
@@ -24,7 +24,7 @@ No login flow is included in this extension. It only works against the active ta
 1. Open `chrome://extensions`.
 2. Turn on `Developer mode`.
 3. Click `Load unpacked`.
-4. Select the `brand-automator` folder.
+4. Select the `jobhandy` folder.
 
 ## Notes
 
@@ -44,7 +44,7 @@ No login flow is included in this extension. It only works against the active ta
 
 You can test the extension safely without touching the company system.
 
-1. Start a local server from the `brand-automator` folder.
+1. Start a local server from the `jobhandy` folder.
 2. Open `http://localhost:8000/test-page.html` in Chrome.
 3. In extension settings, enable `Enable localhost test pages`.
 4. Use these selectors in the extension:
@@ -56,6 +56,6 @@ You can test the extension safely without touching the company system.
 Example server commands:
 
 ```powershell
-cd d:\MAINMANDEE\CODELEARN\jobhandy\brand-automator
+cd d:\MAINMANDEE\CODELEARN\jobhandy
 python -m http.server 8000
 ```

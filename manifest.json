@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Brand List Automator",
+  "name": "Jobhandy",
   "version": "1.1.0",
   "description": "Load names from column A and move them through the open pigu.lt internal tool workflow.",
   "permissions": ["activeTab", "scripting", "storage", "tabs"],
@@ -12,6 +12,6 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Brand List Automator"
+    "default_title": "Jobhandy"
   }
 }
