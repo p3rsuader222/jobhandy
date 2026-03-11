@@ -4,7 +4,12 @@
   "version": "1.1.0",
   "description": "Load names from column A and move them through the open pigu.lt internal tool workflow.",
   "permissions": ["activeTab", "scripting", "storage", "tabs"],
-  "host_permissions": ["https://*.pigu.lt/*"],
+  "host_permissions": [
+    "https://*.pigu.lt/*",
+    "https://*.hobbyhall.fi/*",
+    "https://*.220.lv/*",
+    "https://*.kaup24.ee/*"
+  ],
   "action": {
     "default_popup": "popup.html",
     "default_title": "Brand List Automator"

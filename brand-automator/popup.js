@@ -344,7 +344,7 @@ async function processNextItem() {
 
     const settings = collectSettings();
     if (!isSupportedUrl(tab.url, settings)) {
-      throw new Error("Open a supported page in the active tab (pigu.lt, or localhost when test mode is enabled).");
+      throw new Error("Open a supported brand-exemptions page in the active tab (or localhost when test mode is enabled).");
     }
 
     await saveSettings();
@@ -388,7 +388,7 @@ async function clickFinalConfirm() {
 
     const settings = collectSettings();
     if (!isSupportedUrl(tab.url, settings)) {
-      throw new Error("Open a supported page in the active tab (pigu.lt, or localhost when test mode is enabled).");
+      throw new Error("Open a supported brand-exemptions page in the active tab (or localhost when test mode is enabled).");
     }
 
     await saveSettings();
@@ -410,6 +410,11 @@ async function clickFinalConfirm() {
 
     showStatus("success", "Clicked the final confirm button.");
   } catch (error) {
+    const message = String(error?.message || error || "");
+    if (isChannelCloseError(message)) {
+      showStatus("warn", "Confirm click likely succeeded and the page started reloading.");
+      return;
+    }
     showStatus("error", error.message || "Failed to click the final confirm button.");
   }
 }
@@ -435,7 +440,7 @@ async function startAutomation() {
 
     const settings = collectSettings();
     if (!isSupportedUrl(tab.url, settings)) {
-      throw new Error("Open a supported page in the active tab (pigu.lt, or localhost when test mode is enabled).");
+      throw new Error("Open a supported brand-exemptions page in the active tab (or localhost when test mode is enabled).");
     }
 
     await saveSettings();
@@ -511,8 +516,13 @@ function isSupportedUrl(url, settings) {
     return false;
   }
 
-  if (/^https:\/\/([a-z0-9-]+\.)?pigu\.lt\//i.test(url)) {
-    return true;
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol === "https:" && /\/marketplace\/seller_brand_exemptions\//i.test(parsed.pathname)) {
+      return true;
+    }
+  } catch (error) {
+    // Ignore parse errors and continue to test-page fallback.
   }
 
   if (settings?.allowTestPages) {
@@ -520,6 +530,14 @@ function isSupportedUrl(url, settings) {
   }
 
   return false;
+}
+
+function isChannelCloseError(message) {
+  const lower = String(message || "").toLowerCase();
+  return (
+    lower.includes("message channel closed before a response was received") ||
+    lower.includes("the message port closed before a response was received")
+  );
 }
 
 async function parseSpreadsheetFile(file, settings) {

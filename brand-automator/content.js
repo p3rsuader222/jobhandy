@@ -127,7 +127,7 @@
     }
 
     clickElement(confirmButton);
-    await sleep(clampNumber(Number(settings.delay), 150, 5000, 700));
+    // Return immediately because confirm may trigger navigation and close the message channel.
     return { ok: true };
   }
 
