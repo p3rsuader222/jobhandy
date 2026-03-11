@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brand Exemptions - Test Fixture</title>
+  <style>
+    :root {
+      --page-bg: #f5f6f8;
+      --card-bg: #ffffff;
+      --line: #d7dce3;
+      --text: #21272f;
+      --muted: #6b7482;
+      --btn-red: #d9534f;
+      --btn-blue: #2b5cab;
+      --btn-gray: #f3f4f6;
+      --focus: #f0ca56;
+      --focus-bg: #fff8d9;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font: 14px/1.35 Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: var(--page-bg);
+      padding: 26px;
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .toolbar {
+      background: #f0f2f5;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .content {
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 18px;
+    }
+
+    h1 {
+      font-size: 34px;
+      margin-bottom: 10px;
+      color: #3a414b;
+      font-weight: 500;
+    }
+
+    .meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .meta .seller {
+      color: #525c6b;
+      font-size: 14px;
+    }
+
+    .btn-delete {
+      border: 1px solid #cc4d4a;
+      background: var(--btn-red);
+      color: #fff;
+      border-radius: 3px;
+      padding: 8px 15px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .label {
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: #495464;
+    }
+
+    .lists-row {
+      display: grid;
+      grid-template-columns: 1fr 64px 1fr;
+      gap: 10px;
+      align-items: start;
+      margin-bottom: 10px;
+    }
+
+    .list-wrap {
+      border: 1px solid #cfd6df;
+      background: #fff;
+      min-height: 270px;
+    }
+
+    ul {
+      list-style: none;
+      max-height: 268px;
+      overflow-y: auto;
+    }
+
+    li {
+      padding: 6px 8px;
+      border-bottom: 1px solid #f0f2f5;
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    li:hover {
+      background: #f7fbff;
+    }
+
+    li.selected {
+      background: #deecff;
+      color: #1f4f98;
+      font-weight: 700;
+    }
+
+    .middle-controls {
+      min-height: 270px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .middle-stack {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-move {
+      border: 1px solid #bcc7d7;
+      background: var(--btn-gray);
+      color: #313a48;
+      border-radius: 3px;
+      padding: 7px 12px;
+      cursor: pointer;
+      font-weight: 700;
+      min-width: 48px;
+    }
+
+    .btn-move:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .bottom-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: end;
+      margin-top: 6px;
+    }
+
+    .filter-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: #4f5a6b;
+      font-size: 13px;
+    }
+
+    #brand-filter {
+      width: 100%;
+      border: 2px solid var(--focus);
+      background: var(--focus-bg);
+      border-radius: 3px;
+      padding: 8px 10px;
+      color: #594b00;
+      font-size: 14px;
+    }
+
+    #brand-filter:focus {
+      outline: 2px solid rgba(240, 202, 86, 0.35);
+    }
+
+    #confirm-btn {
+      border: 1px solid #244f92;
+      background: var(--btn-blue);
+      color: #fff;
+      border-radius: 3px;
+      padding: 8px 18px;
+      font-weight: 700;
+      cursor: pointer;
+      height: 36px;
+      min-width: 112px;
+    }
+
+    .result {
+      margin-top: 12px;
+      border: 1px solid var(--line);
+      background: #fbfcfe;
+      color: #334055;
+      border-radius: 4px;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .result.ok {
+      color: #165c2f;
+      border-color: #b8dcc2;
+      background: #f0fbf3;
+    }
+
+    .result.err {
+      color: #8d2320;
+      border-color: #efc1c0;
+      background: #fff5f5;
+    }
+
+    .hint {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 920px) {
+      .lists-row {
+        grid-template-columns: 1fr;
+      }
+
+      .middle-controls {
+        min-height: auto;
+        padding: 8px 0;
+      }
+
+      .bottom-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="toolbar">Test Fixture: matches pigu seller brand exemptions page structure</div>
+
+    <div class="content">
+      <h1>Redagavimas</h1>
+
+      <div class="meta">
+        <div class="seller">Pardavejo id: 9992602</div>
+        <button type="button" class="btn-delete">Istrinti</button>
+      </div>
+
+      <div class="label">Pasirinkti prekes zenkla pagal pavadinima</div>
+
+      <div class="lists-row">
+        <div class="list-wrap">
+          <ul id="available-list"></ul>
+        </div>
+
+        <div class="middle-controls">
+          <div class="middle-stack">
+            <button id="move-left-btn" class="btn-move" type="button" disabled>&lt;&lt;</button>
+            <button id="move-right-btn" class="btn-move" type="button" disabled>&gt;&gt;</button>
+          </div>
+        </div>
+
+        <div class="list-wrap">
+          <ul id="selected-list"></ul>
+        </div>
+      </div>
+
+      <div class="bottom-row">
+        <div class="filter-group">
+          <label for="brand-filter">Filtruoti prekes zenklus</label>
+          <input id="brand-filter" type="text" placeholder="Type brand name..." />
+        </div>
+        <button id="confirm-btn" type="button">Atnaujinti</button>
+      </div>
+
+      <div id="result" class="result">Nothing confirmed yet.</div>
+      <div class="hint">Selectors for extension tests: #brand-filter, #available-list li, #move-right-btn, #confirm-btn</div>
+    </div>
+  </div>
+
+  <script>
+    const brandCatalog = [
+      "Arctic",
+      "Ariete",
+      "ART",
+      "Artdeist",
+      "ASM",
+      "Asus",
+      "Atlantic",
+      "Avenli",
+      "Ayyildiz",
+      "Baby Born",
+      "Beko",
+      "Bosch",
+      "Canon",
+      "Dell",
+      "Dyson",
+      "Epson",
+      "Fisher Price",
+      "GoPro",
+      "Hot Wheels",
+      "Huawei",
+      "Ikea",
+      "JBL",
+      "Kenwood",
+      "Lenovo",
+      "Logitech",
+      "Nikon",
+      "Philips",
+      "Samsung",
+      "Sony",
+      "Xiaomi"
+    ];
+
+    const filterInput = document.getElementById("brand-filter");
+    const availableList = document.getElementById("available-list");
+    const selectedList = document.getElementById("selected-list");
+    const moveButton = document.getElementById("move-right-btn");
+    const moveLeftButton = document.getElementById("move-left-btn");
+    const confirmButton = document.getElementById("confirm-btn");
+    const result = document.getElementById("result");
+
+    const rightSideBrands = [
+      "Arctic",
+      "Ariete",
+      "ART",
+      "Artdeist",
+      "ASM",
+      "Asus",
+      "Atlantic",
+      "Avenli",
+      "Ayyildiz",
+      "Baby Born"
+    ];
+
+    let selectedGreenItem = null;
+
+    function normalize(value) {
+      return String(value || "").trim().toLowerCase();
+    }
+
+    function resolveTypedBrand() {
+      const typed = String(filterInput.value || "").trim();
+      if (!typed) {
+        return "";
+      }
+
+      const exact = brandCatalog.find((brand) => normalize(brand) === normalize(typed));
+      return exact || typed;
+    }
+
+    function renderRightList() {
+      selectedList.innerHTML = "";
+      rightSideBrands.forEach((brand) => {
+        const li = document.createElement("li");
+        li.textContent = brand;
+        selectedList.appendChild(li);
+      });
+    }
+
+    function renderGreenList() {
+      availableList.innerHTML = "";
+      const candidate = resolveTypedBrand();
+      if (!candidate) {
+        selectedGreenItem = null;
+        updateMoveState();
+        return;
+      }
+
+      const li = document.createElement("li");
+      li.textContent = candidate;
+      li.dataset.brand = candidate;
+
+      if (selectedGreenItem && normalize(selectedGreenItem) === normalize(candidate)) {
+        li.classList.add("selected");
+      }
+
+      li.addEventListener("click", () => {
+        selectedGreenItem = candidate;
+        renderGreenList();
+      });
+
+      availableList.appendChild(li);
+      updateMoveState();
+    }
+
+    function updateMoveState() {
+      moveButton.disabled = !selectedGreenItem;
+    }
+
+    filterInput.addEventListener("input", () => {
+      selectedGreenItem = null;
+      renderGreenList();
+    });
+
+    moveButton.addEventListener("click", () => {
+      if (!selectedGreenItem) {
+        return;
+      }
+
+      if (!rightSideBrands.some((brand) => normalize(brand) === normalize(selectedGreenItem))) {
+        rightSideBrands.push(selectedGreenItem);
+      }
+      renderRightList();
+
+      result.textContent = `Moved "${selectedGreenItem}" to right list.`;
+      result.className = "result ok";
+
+      selectedGreenItem = null;
+      filterInput.value = "";
+      renderGreenList();
+    });
+
+    confirmButton.addEventListener("click", () => {
+      const count = rightSideBrands.length;
+      if (!count) {
+        result.textContent = "Atnaujinti clicked but right list is empty.";
+        result.className = "result err";
+        return;
+      }
+
+      result.textContent = `Atnaujinti clicked. ${count} brand(s) currently in right list.`;
+      result.className = "result ok";
+    });
+
+    moveLeftButton.addEventListener("click", () => {
+      // Present for visual parity only in this test fixture.
+    });
+
+    renderRightList();
+    renderGreenList();
+  </script>
+</body>
+</html>
