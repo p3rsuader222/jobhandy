@@ -3,7 +3,7 @@
 Chrome extension for a repetitive internal-tool workflow:
 
 1. Read names from column A in an uploaded `.xlsx`, `.csv`, or `.txt` file.
-2. Use the already open and already logged-in `pigu.lt` tab.
+2. Use the already open and already logged-in internal tool tab.
 3. Press `Process Next Item` once for each row you want to move.
 4. The extension types the next name into the yellow filter field, clicks the matching green item in the left list, and clicks the red `>>` button.
 5. Press `Click Final Confirm` only when you are satisfied with the accumulated changes.
@@ -29,7 +29,7 @@ No login flow is included in this extension. It only works against the active ta
 ## Notes
 
 - If your source file is old `.xls`, open it in Excel and save it as `.xlsx` first.
-- Production selector fields are prefilled by default for the current pigu page structure.
+- Production selector fields are prefilled by default for the current internal page structure.
 - If the page structure is unusual, fill in the advanced CSS selector fields in the popup.
 - Keeping only the target internal-system tab open makes it easier to avoid sending the automation to the wrong page.
 
