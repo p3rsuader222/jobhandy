@@ -56,6 +56,6 @@ You can test the extension safely without touching the company system.
 Example server commands:
 
 ```powershell
-cd d:\MAINMANDEE\CODELEARN\jobhandy
+cd path\to\jobhandy
 python -m http.server 8000
 ```
