@@ -174,7 +174,7 @@
       font-size: 13px;
     }
 
-    #brand-filter {
+    #brand-input-autocomplete {
       width: 100%;
       border: 2px solid var(--focus);
       background: var(--focus-bg);
@@ -184,7 +184,7 @@
       font-size: 14px;
     }
 
-    #brand-filter:focus {
+    #brand-input-autocomplete:focus {
       outline: 2px solid rgba(240, 202, 86, 0.35);
     }
 
@@ -261,13 +261,13 @@
 
       <div class="lists-row">
         <div class="list-wrap">
-          <ul id="available-list"></ul>
+          <ul id="brands-autocomplete-list"></ul>
         </div>
 
         <div class="middle-controls">
           <div class="middle-stack">
             <button id="move-left-btn" class="btn-move" type="button" disabled>&lt;&lt;</button>
-            <button id="move-right-btn" class="btn-move" type="button" disabled>&gt;&gt;</button>
+            <button id="add-option-btn" class="btn-move" type="button" disabled>&gt;&gt;</button>
           </div>
         </div>
 
@@ -278,14 +278,20 @@
 
       <div class="bottom-row">
         <div class="filter-group">
-          <label for="brand-filter">Filtruoti prekes zenklus</label>
-          <input id="brand-filter" type="text" placeholder="Type brand name..." />
+          <label for="brand-input-autocomplete">Filtruoti prekes zenklus</label>
+          <input id="brand-input-autocomplete" type="text" placeholder="Type brand name..." />
         </div>
-        <button id="confirm-btn" type="button">Atnaujinti</button>
+        <div id="seller_brand_exemptions">
+          <div>
+            <div>
+              <button id="confirm-btn" type="button">Atnaujinti</button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div id="result" class="result">Nothing confirmed yet.</div>
-      <div class="hint">Selectors for extension tests: #brand-filter, #available-list li, #move-right-btn, #confirm-btn</div>
+      <div class="hint">IDs match production defaults: #brand-input-autocomplete, #brands-autocomplete-list &gt; li, #add-option-btn, #seller_brand_exemptions &gt; div &gt; div &gt; button</div>
     </div>
   </div>
 
@@ -323,10 +329,10 @@
       "Xiaomi"
     ];
 
-    const filterInput = document.getElementById("brand-filter");
-    const availableList = document.getElementById("available-list");
+    const filterInput = document.getElementById("brand-input-autocomplete");
+    const availableList = document.getElementById("brands-autocomplete-list");
     const selectedList = document.getElementById("selected-list");
-    const moveButton = document.getElementById("move-right-btn");
+    const moveButton = document.getElementById("add-option-btn");
     const moveLeftButton = document.getElementById("move-left-btn");
     const confirmButton = document.getElementById("confirm-btn");
     const result = document.getElementById("result");
