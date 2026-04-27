@@ -578,7 +578,10 @@ function isSupportedUrl(url, settings) {
   }
 
   if (settings?.allowTestPages) {
-    return /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?\//i.test(url);
+    return (
+      /^file:\/\//i.test(url) ||
+      /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?\//i.test(url)
+    );
   }
 
   return false;
