@@ -12,11 +12,11 @@ This guide walks you through installing the Jobhandy Chrome extension from start
 
 ## 1) Download the extension
 
-1. Open this link in Chrome: https://github.com/p3rsuader222/jobhandy
-2. Near the top of the file list there's a **branch dropdown** (it usually shows `main`). Click it and select **`latest`** — that branch has the newest version.
-3. On the right side, click the green **`Code`** button.
-4. At the bottom of the dropdown, click **`Download ZIP`**.
-5. Save the ZIP file somewhere easy to find, like your **Desktop**.
+1. Open this link in Chrome: https://github.com/p3rsuader222/jobhandy/tree/latest
+   - This URL already points to the `latest` branch. If you ever land on a page that shows `main` in the branch dropdown instead, click the dropdown and switch to **`latest`**.
+2. On the right side, click the green **`Code`** button.
+3. At the bottom of the dropdown, click **`Download ZIP`**.
+4. Save the ZIP file somewhere easy to find, like your **Desktop**.
 
 You should now have a file named something like `jobhandy-latest.zip`.
 
