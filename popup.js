@@ -394,7 +394,7 @@ async function processNextItem() {
 
     const settings = collectSettings();
     if (!isSupportedUrl(tab.url, settings)) {
-      throw new Error("Open a supported brand-exemptions page in the active tab (or localhost when test mode is enabled).");
+      throw new Error("Open a supported brand-exemptions page in the active tab (or a localhost / file:// page when test mode is enabled).");
     }
 
     await saveSettings();
@@ -438,7 +438,7 @@ async function clickFinalConfirm() {
 
     const settings = collectSettings();
     if (!isSupportedUrl(tab.url, settings)) {
-      throw new Error("Open a supported brand-exemptions page in the active tab (or localhost when test mode is enabled).");
+      throw new Error("Open a supported brand-exemptions page in the active tab (or a localhost / file:// page when test mode is enabled).");
     }
 
     await saveSettings();
@@ -490,7 +490,7 @@ async function startAutomation() {
 
     const settings = collectSettings();
     if (!isSupportedUrl(tab.url, settings)) {
-      throw new Error("Open a supported brand-exemptions page in the active tab (or localhost when test mode is enabled).");
+      throw new Error("Open a supported brand-exemptions page in the active tab (or a localhost / file:// page when test mode is enabled).");
     }
 
     await saveSettings();
