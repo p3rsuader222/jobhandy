@@ -370,37 +370,7 @@
       : findAllVisible("li, button, [role='option'], [role='treeitem'], [role='menuitem'], [role='row'], div, span, td, label, option");
 
     const target = normalizeText(name);
-    const scored = candidates
-      .map((element) => {
-        const text = normalizeText(getVisibleText(element));
-        if (!text) {
-          return null;
-        }
-
-        let score = 0;
-        if (text === target) {
-          score = 3;
-        } else if (text.startsWith(target)) {
-          score = 2;
-        } else if (text.includes(target)) {
-          score = 1;
-        }
-
-        if (!score) {
-          return null;
-        }
-
-        return { element, score, textLength: text.length };
-      })
-      .filter(Boolean)
-      .sort((left, right) => {
-        if (left.score !== right.score) {
-          return right.score - left.score;
-        }
-        return left.textLength - right.textLength;
-      });
-
-    return scored[0]?.element || null;
+    return candidates.find((element) => normalizeText(getVisibleText(element)) === target) || null;
   }
 
   function resolveAddButton(selector) {

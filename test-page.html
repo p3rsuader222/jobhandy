@@ -247,7 +247,7 @@
 </head>
 <body>
   <div class="page">
-    <div class="toolbar">Test Fixture: only brands in the built-in catalog render in the green list. Anything else stays empty so the extension reports it as unmatched.</div>
+    <div class="toolbar">Test Fixture: typing surfaces every catalog brand whose name contains your text (mimics a real autocomplete). Only an exact match should click through.</div>
 
     <div class="content">
       <h1>Redagavimas</h1>
@@ -356,16 +356,6 @@
       return String(value || "").trim().toLowerCase();
     }
 
-    function resolveTypedBrand() {
-      const typed = String(filterInput.value || "").trim();
-      if (!typed) {
-        return "";
-      }
-
-      const exact = brandCatalog.find((brand) => normalize(brand) === normalize(typed));
-      return exact || "";
-    }
-
     function renderRightList() {
       selectedList.innerHTML = "";
       rightSideBrands.forEach((brand) => {
@@ -377,27 +367,39 @@
 
     function renderGreenList() {
       availableList.innerHTML = "";
-      const candidate = resolveTypedBrand();
-      if (!candidate) {
+      const typed = String(filterInput.value || "").trim();
+      if (!typed) {
         selectedGreenItem = null;
         updateMoveState();
         return;
       }
 
-      const li = document.createElement("li");
-      li.textContent = candidate;
-      li.dataset.brand = candidate;
+      const target = normalize(typed);
+      const matches = brandCatalog.filter((brand) => normalize(brand).includes(target));
 
-      if (selectedGreenItem && normalize(selectedGreenItem) === normalize(candidate)) {
-        li.classList.add("selected");
+      if (!matches.length) {
+        selectedGreenItem = null;
+        updateMoveState();
+        return;
       }
 
-      li.addEventListener("click", () => {
-        selectedGreenItem = candidate;
-        renderGreenList();
+      matches.forEach((brand) => {
+        const li = document.createElement("li");
+        li.textContent = brand;
+        li.dataset.brand = brand;
+
+        if (selectedGreenItem && normalize(selectedGreenItem) === normalize(brand)) {
+          li.classList.add("selected");
+        }
+
+        li.addEventListener("click", () => {
+          selectedGreenItem = brand;
+          renderGreenList();
+        });
+
+        availableList.appendChild(li);
       });
 
-      availableList.appendChild(li);
       updateMoveState();
     }
 
