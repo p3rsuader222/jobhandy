@@ -7,42 +7,72 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #f3f6fb;
-      --panel: #ffffff;
-      --line: #d9e1ee;
-      --text: #152033;
-      --muted: #5f6f86;
-      --primary: #2563eb;
-      --primary-strong: #1d4ed8;
+      --bg: #f7f8fa;
+      --surface: #ffffff;
+      --surface-soft: #f5f6f9;
+      --border: #e5e7eb;
+      --border-strong: #d1d5db;
+      --text: #0f172a;
+      --text-soft: #334155;
+      --muted: #64748b;
+      --accent: #4f46e5;
+      --accent-hover: #4338ca;
+      --accent-soft: #eef2ff;
+      --success: #047857;
+      --success-soft: #ecfdf5;
+      --warn: #b45309;
+      --warn-soft: #fffbeb;
       --danger: #dc2626;
-      --shadow: 0 12px 28px rgba(28, 43, 69, 0.08);
+      --danger-soft: #fef2f2;
+      --radius: 10px;
+      --radius-sm: 7px;
     }
 
     body {
       width: 380px;
-      background:
-        radial-gradient(circle at top right, rgba(37, 99, 235, 0.15), transparent 38%),
-        linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+      background: var(--bg);
       color: var(--text);
-      font: 13px/1.4 "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      font: 13px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", "SF Pro Text", system-ui, "Inter", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
 
     .header {
-      padding: 18px 18px 12px;
-      background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 65%, #4f8df8 100%);
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 16px 16px 14px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--accent) 0%, #7c6cf0 100%);
       color: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.01em;
+      flex-shrink: 0;
     }
 
     .header h1 {
-      font-size: 17px;
-      font-weight: 700;
-      letter-spacing: 0.01em;
+      font-size: 14.5px;
+      font-weight: 650;
+      letter-spacing: -0.005em;
+      color: var(--text);
+      line-height: 1.2;
     }
 
     .header p {
-      margin-top: 4px;
-      font-size: 12px;
-      opacity: 0.9;
+      font-size: 11.5px;
+      color: var(--muted);
+      margin-top: 2px;
+      line-height: 1.3;
     }
 
     .body {
@@ -53,262 +83,360 @@
     }
 
     .panel {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      box-shadow: var(--shadow);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
       overflow: hidden;
     }
 
     .section {
-      padding: 12px;
+      padding: 14px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
     }
 
     .section-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 650;
       color: var(--muted);
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
+    }
+
+    .section-title .num {
+      display: inline-grid;
+      place-items: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0;
     }
 
     .upload-zone {
-      border: 2px dashed #9cc0ff;
-      border-radius: 12px;
-      padding: 16px;
+      border: 1.5px dashed var(--border-strong);
+      border-radius: var(--radius);
+      padding: 18px 14px;
       text-align: center;
       cursor: pointer;
-      background: linear-gradient(180deg, #fdfefe 0%, #f5f9ff 100%);
-      transition: border-color 0.18s ease, transform 0.18s ease, background 0.18s ease;
+      background: var(--surface-soft);
+      transition: border-color 0.15s ease, background 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
     }
 
     .upload-zone:hover,
     .upload-zone.drag-over {
-      border-color: var(--primary);
-      background: #edf4ff;
-      transform: translateY(-1px);
+      border-color: var(--accent);
+      background: var(--accent-soft);
     }
 
     .upload-icon {
-      font-size: 26px;
-      line-height: 1;
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--accent);
+    }
+
+    .upload-icon svg {
+      width: 16px;
+      height: 16px;
     }
 
     .upload-zone strong {
-      color: var(--primary);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 13px;
     }
 
     .upload-zone small {
       color: var(--muted);
+      font-size: 11.5px;
     }
 
-    #file-input {
-      display: none;
-    }
+    #file-input { display: none; }
 
     .preview-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      padding: 10px 12px;
-      border-bottom: 1px solid var(--line);
-      background: #f8fbff;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-soft);
     }
 
     .preview-count {
       display: inline-flex;
-      min-width: 24px;
+      align-items: center;
+      min-width: 22px;
       justify-content: center;
-      padding: 2px 8px;
+      padding: 2px 7px;
       border-radius: 999px;
-      background: var(--primary);
-      color: #fff;
+      background: var(--accent-soft);
+      color: var(--accent);
       font-size: 11px;
       font-weight: 700;
+    }
+
+    .preview-count.danger {
+      background: var(--danger-soft);
+      color: var(--danger);
     }
 
     .preview-list {
       list-style: none;
-      max-height: 148px;
+      max-height: 152px;
       overflow-y: auto;
     }
 
     .preview-list li {
-      padding: 6px 12px;
-      border-bottom: 1px solid #eef2f8;
-      color: #324054;
+      padding: 8px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-soft);
+      font-size: 12.5px;
       word-break: break-word;
     }
 
-    .preview-list li:last-child {
-      border-bottom: 0;
-    }
+    .preview-list li:last-child { border-bottom: 0; }
 
-    .field-grid {
-      display: grid;
-      gap: 10px;
-    }
+    .preview-list::-webkit-scrollbar { width: 6px; }
+    .preview-list::-webkit-scrollbar-track { background: transparent; }
+    .preview-list::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+    .preview-list::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+    .field-grid { display: grid; gap: 12px; }
 
     .field label {
       display: block;
-      margin-bottom: 4px;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      margin-bottom: 5px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-soft);
     }
 
     .field input[type="text"],
     .field input[type="number"] {
       width: 100%;
-      padding: 9px 10px;
-      border: 1px solid #c9d5e7;
-      border-radius: 8px;
-      background: #fff;
+      padding: 8px 10px;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
       color: var(--text);
+      font: inherit;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
 
+    .field input::placeholder { color: var(--muted); opacity: 0.7; }
+
     .field input:focus {
-      outline: 2px solid rgba(37, 99, 235, 0.2);
-      border-color: var(--primary);
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
     }
 
     .hint {
-      font-size: 11px;
+      font-size: 11.5px;
       color: var(--muted);
+      line-height: 1.4;
     }
 
     .checkbox-row {
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 12px;
-      color: var(--text);
+      font-size: 12.5px;
+      color: var(--text-soft);
+      cursor: pointer;
+    }
+
+    .checkbox-row input[type="checkbox"] {
+      width: 14px;
+      height: 14px;
+      accent-color: var(--accent);
+      cursor: pointer;
     }
 
     details summary {
       cursor: pointer;
-      font-weight: 700;
-      color: var(--primary);
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--accent);
       list-style: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      user-select: none;
     }
 
-    details summary::-webkit-details-marker {
-      display: none;
+    details summary::-webkit-details-marker { display: none; }
+
+    details summary::before {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-right: 1.5px solid var(--accent);
+      border-bottom: 1.5px solid var(--accent);
+      transform: rotate(-45deg);
+      transition: transform 0.15s ease;
+      margin-left: 1px;
     }
 
-    .progress-area {
-      display: none;
-    }
+    details[open] summary::before { transform: rotate(45deg); }
+
+    .progress-area { display: none; }
 
     .progress-track {
       width: 100%;
-      height: 8px;
+      height: 6px;
       border-radius: 999px;
-      background: #dbe5f4;
+      background: var(--border);
       overflow: hidden;
     }
 
     .progress-bar {
       width: 0%;
       height: 100%;
-      background: linear-gradient(90deg, #2563eb 0%, #4f8df8 100%);
+      background: var(--accent);
       transition: width 0.25s ease;
     }
 
     .progress-text {
-      margin-top: 8px;
+      margin-top: 6px;
       text-align: center;
-      color: var(--muted);
-      font-size: 12px;
+      color: var(--text-soft);
+      font-size: 12.5px;
+      font-weight: 600;
     }
 
     .status {
       display: none;
       padding: 10px 12px;
-      border-radius: 10px;
+      border-radius: var(--radius);
       border: 1px solid transparent;
       font-size: 12px;
       white-space: pre-line;
+      line-height: 1.45;
     }
 
-    .status.info { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
-    .status.success { background: #f0fdf4; color: #166534; border-color: #bbf7d0; }
-    .status.error { background: #fef2f2; color: #991b1b; border-color: #fecaca; }
-    .status.warn { background: #fff7ed; color: #9a3412; border-color: #fed7aa; }
+    .status.info { background: var(--accent-soft); color: var(--accent-hover); border-color: #d8d9f5; }
+    .status.success { background: var(--success-soft); color: var(--success); border-color: #c7ecda; }
+    .status.error { background: var(--danger-soft); color: var(--danger); border-color: #f4cece; }
+    .status.warn { background: var(--warn-soft); color: var(--warn); border-color: #f0d9aa; }
 
-    .actions {
-      display: grid;
-      gap: 8px;
-    }
+    .actions { display: grid; gap: 8px; }
 
-    .actions.two-col {
-      grid-template-columns: 1fr 1fr;
-    }
+    .actions.two-col { grid-template-columns: 1fr 1fr; }
 
     .btn {
       width: 100%;
-      padding: 11px 12px;
-      border: 0;
-      border-radius: 10px;
+      padding: 10px 12px;
+      border: 1px solid transparent;
+      border-radius: var(--radius-sm);
       cursor: pointer;
-      font-size: 14px;
-      font-weight: 700;
-      transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
-    }
-
-    .btn:hover:not(:disabled) {
-      transform: translateY(-1px);
+      font-size: 13px;
+      font-weight: 600;
+      font-family: inherit;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
     }
 
     .btn:disabled {
       cursor: not-allowed;
-      opacity: 0.55;
+      opacity: 0.5;
     }
 
     .btn-primary {
       color: #fff;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-strong) 100%);
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
     }
 
     .btn-neutral {
       color: var(--text);
-      background: #e9eef7;
+      background: var(--surface);
+      border-color: var(--border-strong);
+    }
+
+    .btn-neutral:hover:not(:disabled) {
+      background: var(--surface-soft);
     }
 
     .btn-danger {
       display: none;
       color: #fff;
-      background: linear-gradient(135deg, #ef4444 0%, var(--danger) 100%);
+      background: var(--danger);
+      border-color: var(--danger);
+    }
+
+    .btn-danger:hover:not(:disabled) {
+      background: #b91c1c;
+      border-color: #b91c1c;
     }
 
     .btn-secondary {
-      border: 1px solid var(--line);
-      background: #fff;
-      color: var(--muted);
-      font-size: 12px;
-      padding: 6px 9px;
+      background: var(--surface);
+      color: var(--text-soft);
+      border-color: var(--border-strong);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: var(--surface-soft);
+      border-color: var(--muted);
+      color: var(--text);
+    }
+
+    .preview-header .btn-secondary {
+      width: auto;
+      padding: 4px 10px;
+      font-size: 11.5px;
+      border-radius: 6px;
     }
   </style>
 </head>
 <body>
   <div class="header">
-    <h1>Jobhandy</h1>
-    <p>Column A from Excel to the open tvs.pigu.lt tool</p>
+    <div class="header-logo">J</div>
+    <div>
+      <h1>Jobhandy</h1>
+      <p>Column A from Excel into the open seller tool</p>
+    </div>
   </div>
 
   <div class="body">
     <div class="panel section">
-      <div class="section-title">1. Source File</div>
+      <div class="section-title"><span class="num">1</span>Source File</div>
       <div class="upload-zone" id="upload-zone">
-        <div class="upload-icon">[+]</div>
+        <div class="upload-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </div>
         <p><strong>Choose or drop a file</strong></p>
-        <p><small>Supports .xlsx, .csv, .txt. Old .xls files should be re-saved as .xlsx first.</small></p>
+        <p><small>Supports .xlsx, .csv, .txt &mdash; re-save old .xls files first.</small></p>
         <input type="file" id="file-input" accept=".xlsx,.csv,.txt" />
       </div>
     </div>
@@ -325,13 +453,13 @@
     </div>
 
     <div class="panel section">
-      <div class="section-title">2. Automation Settings</div>
+      <div class="section-title"><span class="num">2</span>Automation Settings</div>
 
       <div class="field-grid">
         <div class="field">
-          <label for="delay">Delay Between Actions (ms)</label>
+          <label for="delay">Delay between actions (ms)</label>
           <input type="number" id="delay" value="700" min="150" max="5000" step="50" />
-          <div class="hint">Increase this if the internal page reacts slowly.</div>
+          <div class="hint">Increase if the page reacts slowly.</div>
         </div>
 
         <label class="checkbox-row">
@@ -343,38 +471,39 @@
           <input type="checkbox" id="click-confirm" />
           <span>Click final confirm button after all names are processed</span>
         </label>
+
         <label class="checkbox-row">
           <input type="checkbox" id="allow-test-pages" />
           <span>Enable localhost test pages</span>
         </label>
-        <div class="hint">Recommended: leave this off for the first runs so the user can review the selected items manually before confirming.</div>
+        <div class="hint">Recommended: leave off for the first runs so you can review selections manually before confirming.</div>
       </div>
 
       <details>
         <summary>Advanced selectors</summary>
-        <div class="field-grid" style="margin-top:10px;">
+        <div class="field-grid" style="margin-top:12px;">
           <div class="field">
-            <label for="input-selector">Filter Field Selector</label>
-            <input type="text" id="input-selector" placeholder="Example: input[name='brandFilter']" />
+            <label for="input-selector">Filter field selector</label>
+            <input type="text" id="input-selector" placeholder="e.g. input[name='brandFilter']" />
             <div class="hint">Leave blank to use the first visible text input on the page.</div>
           </div>
 
           <div class="field">
-            <label for="list-item-selector">Source List Item Selector (Green Left List)</label>
-            <input type="text" id="list-item-selector" placeholder="Example: .available-brands li" />
-            <div class="hint">Use selector for the green item that appears above the yellow filter field.</div>
+            <label for="list-item-selector">Source list item selector</label>
+            <input type="text" id="list-item-selector" placeholder="e.g. .available-brands li" />
+            <div class="hint">Selector for the green item that appears above the yellow filter field.</div>
           </div>
 
           <div class="field">
-            <label for="add-button-selector">Move Right Button Selector</label>
-            <input type="text" id="add-button-selector" placeholder="Example: button.move-right" />
-            <div class="hint">If blank, the script looks for a visible button with text like >> or Add.</div>
+            <label for="add-button-selector">Move-right button selector</label>
+            <input type="text" id="add-button-selector" placeholder="e.g. button.move-right" />
+            <div class="hint">If blank, the script looks for a visible button like &gt;&gt; or Add.</div>
           </div>
 
           <div class="field">
-            <label for="confirm-button-selector">Final Confirm Button Selector</label>
-            <input type="text" id="confirm-button-selector" placeholder="Example: button.save" />
-            <div class="hint">If blank, the script looks for a visible button like Atnaujinti, Save, Update, or Confirm.</div>
+            <label for="confirm-button-selector">Final confirm button selector</label>
+            <input type="text" id="confirm-button-selector" placeholder="e.g. button.save" />
+            <div class="hint">If blank, the script looks for Atnaujinti, Save, Update, or Confirm.</div>
           </div>
         </div>
       </details>
@@ -389,20 +518,31 @@
       <div class="hint" id="current-item-hint">Next item: none</div>
     </div>
 
+    <div class="panel" id="unmatched-box" style="display:none;">
+      <div class="preview-header">
+        <span>Unmatched brands</span>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="preview-count danger" id="unmatched-count">0</span>
+          <button class="btn btn-secondary" id="btn-clear-unmatched" type="button">Clear</button>
+        </div>
+      </div>
+      <ul class="preview-list" id="unmatched-list"></ul>
+    </div>
+
     <div class="status" id="status"></div>
 
     <div class="actions">
-      <button class="btn btn-primary" id="btn-step" type="button" disabled>Process Next Item</button>
-      <button class="btn btn-neutral" id="btn-confirm-final" type="button" disabled>Click Final Confirm</button>
+      <button class="btn btn-primary" id="btn-step" type="button" disabled>Process next item</button>
+      <button class="btn btn-neutral" id="btn-confirm-final" type="button" disabled>Click final confirm</button>
     </div>
 
     <div class="actions two-col">
-      <button class="btn btn-secondary" id="btn-start" type="button" disabled>Run Full Automation</button>
-      <button class="btn btn-secondary" id="btn-reset-progress" type="button" disabled>Reset Progress</button>
+      <button class="btn btn-secondary" id="btn-start" type="button" disabled>Run full automation</button>
+      <button class="btn btn-secondary" id="btn-reset-progress" type="button" disabled>Reset progress</button>
     </div>
 
     <div class="actions">
-      <button class="btn btn-danger" id="btn-stop" type="button">Stop Full Automation</button>
+      <button class="btn btn-danger" id="btn-stop" type="button">Stop full automation</button>
     </div>
   </div>
 

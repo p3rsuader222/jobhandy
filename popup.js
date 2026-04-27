@@ -3,6 +3,7 @@ const STORAGE_KEYS = {
   settings: "brandAutomatorSettings",
   status: "brandAutomatorStatus",
   progress: "brandAutomatorProgress",
+  unmatched: "brandAutomatorUnmatched",
 };
 
 const DEFAULT_SETTINGS = {
@@ -20,6 +21,7 @@ const state = {
   names: [],
   status: null,
   progressIndex: 0,
+  unmatched: [],
 };
 
 const elements = {};
@@ -29,7 +31,7 @@ document.addEventListener("DOMContentLoaded", init);
 async function init() {
   cacheElements();
   bindEvents();
-  await Promise.all([loadSettings(), loadNames(), loadProgress(), loadStatus()]);
+  await Promise.all([loadSettings(), loadNames(), loadProgress(), loadStatus(), loadUnmatched()]);
   renderProgress();
   chrome.storage.onChanged.addListener(handleStorageChange);
 }
@@ -59,6 +61,10 @@ function cacheElements() {
   elements.btnStart = document.getElementById("btn-start");
   elements.btnResetProgress = document.getElementById("btn-reset-progress");
   elements.btnStop = document.getElementById("btn-stop");
+  elements.unmatchedBox = document.getElementById("unmatched-box");
+  elements.unmatchedList = document.getElementById("unmatched-list");
+  elements.unmatchedCount = document.getElementById("unmatched-count");
+  elements.btnClearUnmatched = document.getElementById("btn-clear-unmatched");
 }
 
 function bindEvents() {
@@ -92,15 +98,24 @@ function bindEvents() {
     state.names = [];
     state.progressIndex = 0;
     state.status = null;
+    state.unmatched = [];
     elements.fileInput.value = "";
     await chrome.storage.local.remove([
       STORAGE_KEYS.names,
       STORAGE_KEYS.status,
       STORAGE_KEYS.progress,
+      STORAGE_KEYS.unmatched,
     ]);
     renderNames();
     renderProgress();
+    renderUnmatched();
     hideStatus();
+  });
+
+  elements.btnClearUnmatched.addEventListener("click", async () => {
+    state.unmatched = [];
+    await chrome.storage.local.remove(STORAGE_KEYS.unmatched);
+    renderUnmatched();
   });
 
   [
@@ -183,6 +198,12 @@ async function loadStatus() {
   renderStatus(state.status);
 }
 
+async function loadUnmatched() {
+  const stored = await chrome.storage.local.get(STORAGE_KEYS.unmatched);
+  state.unmatched = Array.isArray(stored[STORAGE_KEYS.unmatched]) ? stored[STORAGE_KEYS.unmatched] : [];
+  renderUnmatched();
+}
+
 function handleStorageChange(changes, areaName) {
   if (areaName !== "local") {
     return;
@@ -210,6 +231,13 @@ function handleStorageChange(changes, areaName) {
     renderProgress();
     updateActionButtons();
   }
+
+  if (changes[STORAGE_KEYS.unmatched]) {
+    state.unmatched = Array.isArray(changes[STORAGE_KEYS.unmatched].newValue)
+      ? changes[STORAGE_KEYS.unmatched].newValue
+      : [];
+    renderUnmatched();
+  }
 }
 
 async function handleFile(file) {
@@ -224,10 +252,12 @@ async function handleFile(file) {
 
     state.names = names;
     state.status = null;
+    state.unmatched = [];
     await chrome.storage.local.set({ [STORAGE_KEYS.names]: names });
-    await chrome.storage.local.remove(STORAGE_KEYS.status);
+    await chrome.storage.local.remove([STORAGE_KEYS.status, STORAGE_KEYS.unmatched]);
     await saveProgressIndex(0);
     renderNames();
+    renderUnmatched();
     showStatus("success", `Loaded ${names.length} name${names.length === 1 ? "" : "s"} from ${file.name}.`);
   } catch (error) {
     showStatus("error", error.message || "Failed to load the file.");
@@ -278,6 +308,26 @@ function renderStatus(status) {
   }
 
   updateActionButtons();
+}
+
+function renderUnmatched() {
+  const items = state.unmatched;
+  elements.unmatchedBox.style.display = items.length ? "block" : "none";
+  elements.unmatchedCount.textContent = String(items.length);
+  elements.unmatchedList.innerHTML = "";
+
+  const previewLimit = 80;
+  items.slice(0, previewLimit).forEach((name) => {
+    const item = document.createElement("li");
+    item.textContent = name;
+    elements.unmatchedList.appendChild(item);
+  });
+
+  if (items.length > previewLimit) {
+    const item = document.createElement("li");
+    item.textContent = `...and ${items.length - previewLimit} more`;
+    elements.unmatchedList.appendChild(item);
+  }
 }
 
 function renderProgress() {
@@ -470,8 +520,10 @@ async function startAutomation() {
 
 async function resetProgress() {
   await saveProgressIndex(0);
-  await chrome.storage.local.remove(STORAGE_KEYS.status);
+  await chrome.storage.local.remove([STORAGE_KEYS.status, STORAGE_KEYS.unmatched]);
   state.status = null;
+  state.unmatched = [];
+  renderUnmatched();
   updateActionButtons();
   showStatus("info", "Progress reset to the first item.");
 }

@@ -7,6 +7,7 @@
 
   const STATUS_KEY = "brandAutomatorStatus";
   const PROGRESS_KEY = "brandAutomatorProgress";
+  const UNMATCHED_KEY = "brandAutomatorUnmatched";
   const MAX_ITEMS_PER_RUN = 500;
   const MAX_CONSECUTIVE_MISSES = 5;
   let activeRun = null;
@@ -109,9 +110,11 @@
 
     const result = await processSingleItem(name, payload?.settings || {});
     if (!result.ok) {
+      await addUnmatchedName(name);
       return { ok: false, error: result.error };
     }
 
+    await removeUnmatchedName(name);
     return { ok: true };
   }
 
@@ -158,6 +161,7 @@
       if (!result.ok) {
         run.errors.push(result.error);
         run.consecutiveMisses += 1;
+        await addUnmatchedName(name);
         await pushStatus({
           state: "running",
           total: run.totalItems,
@@ -173,6 +177,7 @@
       }
 
       run.consecutiveMisses = 0;
+      await removeUnmatchedName(name);
       await pushStatus({
         state: "running",
         total: run.totalItems,
@@ -255,6 +260,34 @@
 
   async function pushProgress(currentIndex) {
     await chrome.storage.local.set({ [PROGRESS_KEY]: { currentIndex } });
+  }
+
+  async function addUnmatchedName(name) {
+    const trimmed = String(name || "").trim();
+    if (!trimmed) {
+      return;
+    }
+    const stored = await chrome.storage.local.get(UNMATCHED_KEY);
+    const existing = Array.isArray(stored[UNMATCHED_KEY]) ? stored[UNMATCHED_KEY] : [];
+    if (existing.includes(trimmed)) {
+      return;
+    }
+    existing.push(trimmed);
+    await chrome.storage.local.set({ [UNMATCHED_KEY]: existing });
+  }
+
+  async function removeUnmatchedName(name) {
+    const trimmed = String(name || "").trim();
+    if (!trimmed) {
+      return;
+    }
+    const stored = await chrome.storage.local.get(UNMATCHED_KEY);
+    const existing = Array.isArray(stored[UNMATCHED_KEY]) ? stored[UNMATCHED_KEY] : [];
+    const filtered = existing.filter((entry) => entry !== trimmed);
+    if (filtered.length === existing.length) {
+      return;
+    }
+    await chrome.storage.local.set({ [UNMATCHED_KEY]: filtered });
   }
 
   async function processSingleItem(name, settings) {
